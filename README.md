@@ -49,7 +49,7 @@ int main() {
   signal(SIGINT, stopListener);
 
   // Creates simple thread pool
-  concurrent::ThreadPool<std::string> threadPool( [](auto taskData) { std::cout << "Processing task: " << taskData << std::endl; } );
+  concurrent::ThreadPool<std::string> threadPool( [](const auto& taskData) { std::cout << "Processing task: " << taskData << std::endl; } );
   
   // Generate random tasks until ctrl+c signal received
   while (stopProgram == false) {
