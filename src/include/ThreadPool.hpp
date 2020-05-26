@@ -19,12 +19,15 @@ namespace concurrent {
 template <typename Task>
 class ThreadPool {
 public:
+  // Custom processor function signature
+  using Processor = std::function<void(Task&)>;
+
   // Ctors and Dtors
   /**
    * @param processor   Custom processingfunction
    * @param workersNum  Number of workers
    **/
-  ThreadPool(std::function<void(Task&)>&& processor, size_t workersNum = 5) :
+  ThreadPool(Processor&& processor, size_t workersNum = 5) :
     stopProcessing_(false),
     ignoreExistingTasks_(false),
     processor_(std::move(processor)),
@@ -65,12 +68,12 @@ public:
   /**
    * @brief Pushes the given element value to the end of the queue. Used for l-values
    **/ 
-  void push(const std::shared_ptr<Task>& value) {
+  void push(const Task& value) {
       if (stopProcessing_ == true) {
         return;
       }
 
-      std::scoped_lock<std::mutex> lock(mutex_);
+      std::scoped_lock lock(mutex_);
 
       queue_.push(value);
       cond_var_.notify_one();
@@ -79,12 +82,12 @@ public:
   /**
    * @brief Pushes the given element value to the end of the queue. Used for r-values
    **/ 
-  void push(std::shared_ptr<Task>&& value) {
+  void push(Task&& value) {
       if (stopProcessing_ == true) {
         return;
       }
 
-      std::scoped_lock<std::mutex> lock(mutex_);
+      std::scoped_lock lock(mutex_);
 
       queue_.push(std::move(value));
       cond_var_.notify_one();
@@ -99,7 +102,7 @@ public:
         return;
       }
 
-      std::scoped_lock<std::mutex> lock(mutex_);
+      std::scoped_lock lock(mutex_);
 
       queue_.emplace(std::forward<Args>(args)...);
       cond_var_.notify_one();
@@ -131,12 +134,13 @@ public:
         cond_var_.wait(lock);
       } 
       
-      Task task = queue_.front();
+      Task task = std::move(queue_.front());
       queue_.pop();
 
       lock.unlock();
 
-      std::cout << "Worker num " << workerId << ": ";  
+      std::cout << "Worker num " << workerId << ": ";
+
       // Calls custom processor
       processor_(task);
     }
@@ -149,7 +153,7 @@ private:
   bool                       ignoreExistingTasks_;
 
   // Custom processing function
-  std::function<void(Task&)> processor_;
+  Processor                  processor_;
 
   // Queue of unprocessed tasks
   std::queue<Task>           queue_;
