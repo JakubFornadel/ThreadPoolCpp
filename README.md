@@ -1,4 +1,4 @@
-# ThreadPoolrC++
+# ThreadPoolC++
 ThreadPoolC++ is a simple and easy to use C++ threadpool implementation. It is just simple working POC, which can adjusted according to the use case.  
 
 Keywords: threadpool, C++17, thread-safe, concurrent
