@@ -1,16 +1,20 @@
-# Story Title
+## Purpose
 
-[This is the Issue Title](https://github.com/username/repository-name/issues/1)
+<!-- Provide any information reviewers might need to have context on your changes. -->
 
-## Changes made
-
-- made this
-- did that
 
 ## How does the solution address the problem
 
-This PR will...
+<!-- Describe your solution. -->
+
+
+## Changes made
+
+<!-- Summary or changes that have been made. -->
+
 
 ## Linked issues
 
-Resolves #1
+<!-- Link the existing issue. -->
+
+
