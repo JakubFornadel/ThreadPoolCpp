@@ -1,7 +1,11 @@
 ---
 name: ":ant: Task"
+about: A small task that is, most likely, part of an Epic. It will usually be labeled
+  as `good first issue`.
+title: ''
 labels: task
-about: A small task that is, most likely, part of an Epic. It will usually be labeled as `good first issue`.
+assignees: ''
+
 ---
 
 <!-- Issue title should mirror the Task Title. -->
