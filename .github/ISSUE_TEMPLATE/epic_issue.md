@@ -2,7 +2,7 @@
 name: Epic
 about: A task large enough that it needs to be divided into smaller tasks. It will
   usually be labeled as `enhancement`.
-title: ''
+title: Lololo
 labels: epic
 assignees: ''
 
